@@ -10,7 +10,7 @@ td {
     width: 10%; /* 横10マス */
     height: 5%; /* 縦20マス */
 }
-.stick_blue {
+.stick {
     background-color: #03A9F4;
 }
 
