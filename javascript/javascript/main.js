@@ -45,16 +45,53 @@ var move = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ];
 
-var moveFloag = 0;
-
+var moveFlag = 0;
+var NONE_BLOCK = 0;
+var BLUE= 1;
+var YELLOW = 2;
+var RED = 3;
+var GREEN = 4;
+var OLIVE = 5;
+var FUCHSIA = 6;
+var SILVER = 7;
+var NAVY = 8;
+var REAL = 9;
+var PURPLE = 10;
 
 function draw() {
     $('#game').find('tr').each(function(i, elemTr) {
         $(elemTr).children().each(function(j, elemTd) {
             $(elemTd).removeClass();
             switch (array[i][j]) {
-                case 1:
-                    $(elemTd).addClass('stick');
+                case BLUE:
+                    $(elemTd).addClass('stick_blue');
+                    break;
+                case YELLOW:
+                    $(elemTd).addClass('stick_yellow');
+                    break;
+                case RED:
+                    $(elemTd).addClass('stick_red');
+                    break;
+                case GREEN:
+                    $(elemTd).addClass('stick_green');
+                    break;
+                case OLIVE:
+                    $(elemTd).addClass('stick_olive');
+                    break;
+                case FUCHSIA:
+                    $(elemTd).addClass('stick_fuchsia');
+                    break;
+                case SILVER:
+                    $(elemTd).addClass('stick_silver');
+                    break;
+                case NAVY:
+                    $(elemTd).addClass('stick_navy');
+                    break;
+                case REAL:
+                    $(elemTd).addClass('stick_real');
+                    break;
+                case PURPLE:
+                    $(elemTd).addClass('stick_purple');
                     break;
                 default:
                     $(elemTd).addClass('default');
@@ -67,8 +104,9 @@ function fall() {
     var under = [1,1,1,1,1,1,1,1,1,1];
     for(var i = 19;i >= 0; i--) {  
         for(var j = 0;j < 10; j++) {
+            var color = array[i][j];
             if(under[j] == 0) {
-                if(array[i][j] == 0) {
+                if(color == NONE_BLOCK) {
                     //下に何もなく、そのマスがブロックでもない時
                     under[j] = 0;
                 } else {
@@ -77,22 +115,23 @@ function fall() {
                     array[i][j] = 0;
 
                     //moveも一緒に動かす
-                    if(move[i][j] == 1) {
+                    if(move[i][j] != 0) {
                         move[i][j] = 0;
-                        move[i + 1][j] = 1;
+                        move[i + 1][j] = color;
                     }
                     under[j] = 0;
                 }
             } else {
-                if(array[i][j] == 0) {
+                if(color == NONE_BLOCK) {
                     //下がブロックでそのますがブロックでない時
-                    under[j] = 0;
+                    under[j] = NONE_BLOCK;
                 } else {
+                    var color = array[i][j];
                     //下がブロックでそのますがブロックの時
-                    if (move[i][j] == 1) {
+                    if (move[i][j] != NONE_BLOCK) {
                         resetMove();
                     }
-                    under[j] = 1;
+                    under[j] = color;
                 }
             }
         }
@@ -110,27 +149,24 @@ function resetMove() {
 
 function genBlock(blockNum) {
     if (moveFlag == 0) {
-        switch (blockNum) {
-            case 1:
-                array[0][5] = blockNum;
-                array[1][5] = blockNum;
-                array[2][5] = blockNum;
-                array[3][5] = blockNum;
-                // moveも同時に変更する
-                move[0][5] = 1;
-                move[1][5] = 1;
-                move[2][5] = 1;
-                move[3][5] = 1;
-                break;
-            }
-            moveFlag = 1;
+            array[3][5] = blockNum;
+            array[3][4] = blockNum;
+            array[3][3] = blockNum;
+            array[3][2] = blockNum;
+            // moveも同時に変更する
+            move[3][5] = blockNum;
+            move[3][4] = blockNum;
+            move[3][3] = blockNum;
+            move[3][2] = blockNum;
+            moveFlag = 1;     
         }
     }
 
 document.onkeydown = function(e) {
     switch (e.code) {
         case "Space":
-            genBlock(1);
+            var random = Math.floor( Math.random() * 11 );
+            genBlock(random);
             break;
         case "ArrowRight":
             moveBlockRight();
@@ -146,10 +182,11 @@ function moveBlockRight() {
     for(var i = 19; i>= 0; i--) {
         var newMove = move[i].concat();
         for(var j = 8;j >= 0; j--) {
-            if(move[i][j] == 1) {
+            var color = move[i][j];
+            if(color != NONE_BLOCK) {
                 array[i][j + 1] = array[i][j];
                 array[i][j] = 0;
-                newMove[j + 1] = 1;
+                newMove[j + 1] = color;
                 newMove[j] = 0;
             }
         }
@@ -161,10 +198,11 @@ function moveBlockLeft() {
     for(var i = 19;i >= 0; i--) {
         var newMove= move[i].concat();
         for(var j = 1;j < 10; j++) {
-            if (move[i][j] == 1) {
+            var color = move[i][j]
+            if (color != NONE_BLOCK) {
                 array[i][j - 1] = array[i][j];
                 array[i][j] = 0;
-                newMove[j -1] = 1;
+                newMove[j -1] = color;
                 newMove[j] = 0;
             }
         }
