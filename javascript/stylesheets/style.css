@@ -1,0 +1,55 @@
+body {
+    background-color: #263238;
+}
+table {
+    margin: 0 auto; /* 中央寄せ */
+    width: 400px;
+    height: 800px;
+}
+td {
+    width: 10%; /* 横10マス */
+    height: 5%; /* 縦20マス */
+}
+.stick_blue {
+    background-color: #03A9F4;
+}
+
+.stick_yellow {
+    background-color: #FFFF00;
+}
+
+.stick_red {
+    background-color: #FF0000;
+}
+
+.stick_green {
+    background-color: #008000;
+}
+
+.stick_olive {
+    background-color: #808000;
+}
+
+.stick_fuchsia {
+    background-color: #FF00FF;
+}
+
+.stick_silver {
+    background-color: #C0C0C0;
+}
+
+.stick_navy {
+    background-color: #000080;
+}
+
+.stick_real {
+    background-color: #008080;
+}
+
+.stick_purple {
+    background-color: #800080;
+}
+
+.default {
+    background-color: #455A64;
+}
